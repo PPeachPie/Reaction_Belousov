@@ -1,0 +1,90 @@
+class Cell
+{
+    private:
+    
+        int m_size;
+        char *m_pop;
+        
+    public:
+        
+    Cell(int size)
+    {
+        setSize(size);
+        m_pop=new char[size, size];
+        Initiate_Population();
+    }
+    
+    int setSize(int size) 
+    {
+        m_size = size;
+    }
+    
+    char getCellValue(int x, int y)
+    {
+        return m_pop[x, y];
+    }
+    
+    char setCellValue(int x, int y, char value)
+    {
+        m_pop[x, y]=value;
+    }
+    
+    int randomRange(int low, int high)
+    {
+        return rand() % (high - low + 1) + low;
+    }
+    
+    void Initiate_Population()
+    {
+        for(int i=0; i<m_size; i++)
+        {
+            for(int j=0; j<m_size; j++)
+            {
+                m_pop[i, j] = randomRange((int)'a', (int)'d');
+            }
+        }
+    }
+    
+    
+    int check(int coord)
+    {
+        int k=0;
+        if (coord < 0) k = m_size-1;
+        if (coord > m_size - 1) k = 0;
+        return k;
+    }
+    
+    int Neighbour(int x, int y, int search)
+    {
+        int nb = 0;
+        if (m_pop[check(x - 1), check(y - 1)] == search) nb++;
+        if (m_pop[check(x - 1), check(y)] == search) nb++;
+        if (m_pop[check(x - 1), check(y + 1)] == search) nb++;
+        if (m_pop[check(x), check(y - 1)] == search) nb++;
+        if (m_pop[check(x), check(y + 1)] == search) nb++;
+        if (m_pop[check(x + 1), check(y - 1)] == search) nb++;
+        if (m_pop[check(x + 1), check(y)] == search) nb++;
+        if (m_pop[check(x + 1), check(y + 1)] == search) nb++;
+        return nb;
+    }
+    
+    ~Cell()
+    {
+        delete[] m_pop;
+    }
+    
+};
+
+int main()
+{
+    Cell c(5);
+    //printf("%c", c.getCellValue(1, 3));
+    for (int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            printf("%c",c.getCellValue(i, j));
+        }
+    }
+    return 0;
+}
